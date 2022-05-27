@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Post;
 use app\models\PostSearch;
+use yii\filters\AccessRule;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -130,5 +131,23 @@ class PostController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+
+    public function allows()
+    {
+        return array(
+            array('allow',  // позволим всем пользователям выполнять действия 'list' и 'show'
+                'actions'=>array('index', 'view'),
+                'users'=>array('*'),
+            ),
+            array('allow', // позволим аутентифицированным пользователям выполнять любые действия
+                'users'=>array('@'),
+            ),
+            array('deny',  // остальным запретим всё
+                'users'=>array('*'),
+            ),
+        );
     }
 }

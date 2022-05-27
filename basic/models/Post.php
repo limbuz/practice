@@ -25,6 +25,11 @@ class Post extends \yii\db\ActiveRecord
     const STATUS_PUBLISHED=2;
     const STATUS_ARCHIVED=3;
 
+    public function getStatus()
+    {
+        return [self::STATUS_DRAFT, self::STATUS_PUBLISHED, self::STATUS_ARCHIVED];
+    }
+
     /**
      * {@inheritdoc}
      */

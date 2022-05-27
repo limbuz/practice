@@ -12,6 +12,7 @@ use Yii;
  * @property int|null $code
  * @property string|null $type
  * @property string|null $position
+ * @var $model = new \app\models\Lookup;
  */
 class Lookup extends \yii\db\ActiveRecord
 {
@@ -69,11 +70,7 @@ class Lookup extends \yii\db\ActiveRecord
     private static function loadItems($type)
     {
         self::$_items[$type]=array();
-        $models=static::findAll(array(
-            'condition'=>'type=:type',
-            'params'=>array(':type'=>$type),
-            'order'=>'position',
-        ));
+        $models=Lookup::find()->where('type=:type')->params([':type'=>$type])->orderBy('position')->all();
         foreach($models as $model)
             self::$_items[$type][$model->code]=$model->name;
     }
