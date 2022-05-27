@@ -25,9 +25,35 @@ class Post extends \yii\db\ActiveRecord
     const STATUS_PUBLISHED=2;
     const STATUS_ARCHIVED=3;
 
-    public function getStatus()
+    public function beforeSave($insert)
     {
-        return [self::STATUS_DRAFT, self::STATUS_PUBLISHED, self::STATUS_ARCHIVED];
+        if(parent::beforeSave($insert))
+        {
+            if($this->isNewRecord)
+            {
+                $this->create_time=$this->update_time=time();
+                $this->author_id=Yii::$app->user->id;
+            }
+            else
+                $this->update_time=time();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        (new Tag)->updateFrequency($this->_oldTags, $this->tags);
+    }
+
+    private $_oldTags;
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->_oldTags=$this->tags;
     }
 
     /**
