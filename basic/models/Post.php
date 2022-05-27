@@ -38,9 +38,23 @@ class Post extends \yii\db\ActiveRecord
             [['id'], 'required'],
             [['id', 'author_id'], 'integer'],
             [['title', 'content', 'tags', 'status', 'create_time', 'update_time'], 'string', 'max' => 45],
+            ['title, content, status', 'required'],
+            ['status', 'in', 'range'=>array(1,2,3)],
+            ['tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
+                'message'=>'В тегах можно использовать только буквы.'],
+            ['tags', 'normalizeTags'],
+            ['title, status', 'safe', 'on'=>'search'],
             [['id'], 'unique'],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
         ];
+    }
+
+    /**
+     * tag normalize
+     */
+    public function normalizeTags($attribute,$params)
+    {
+        $this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
     }
 
     /**
