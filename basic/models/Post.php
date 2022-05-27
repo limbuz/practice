@@ -93,4 +93,9 @@ class Post extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Comment::className(), ['post_id' => 'id']);
     }
+
+    public function getUrl()
+    {
+        Yii::$app->urlManager->createUrl(['post/view', 'id'=>$this->id, 'title'=>$this->title]);
+    }
 }
