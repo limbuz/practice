@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Post;
 use app\models\PostSearch;
+use Yii;
 use yii\filters\AccessRule;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -56,8 +57,11 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $condition='status='.Post::STATUS_PUBLISHED
+            .' OR status='.Post::STATUS_ARCHIVED;
+        $post=$this->findModel($id, $condition);
+        return $this->render('view',[
+            'model'=>$post,
         ]);
     }
 
@@ -92,7 +96,7 @@ class PostController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, '');
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -112,7 +116,7 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id,'')->delete();
 
         return $this->redirect(['index']);
     }
@@ -124,9 +128,9 @@ class PostController extends Controller
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $condition)
     {
-        if (($model = Post::findOne(['id' => $id])) !== null) {
+        if (($model = Post::findOne(['id' => $id, $condition])) !== null) {
             return $model;
         }
 
