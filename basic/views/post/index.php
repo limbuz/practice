@@ -4,13 +4,14 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Posts';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
 
@@ -21,6 +22,15 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?php if(!empty($_GET['tag'])): ?>
+        <h1>Записи с тегом <i><?php echo Html::encode($_GET['tag']); ?></i></h1>
+    <?php endif; ?>
+    <?php ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => 'view',
+        'layout' => "{items}\n{pager}",
+    ]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -38,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'author_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Post $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

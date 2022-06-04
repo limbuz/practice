@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\models\Post;
 use app\models\PostSearch;
+use app\models\Tag;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessRule;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -57,11 +59,25 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        $condition='status='.Post::STATUS_PUBLISHED
-            .' OR status='.Post::STATUS_ARCHIVED;
-        $post=$this->findModel($id, $condition);
-        return $this->render('view',[
-            'model'=>$post,
+        $criteria = Post::find()->where(
+            ['status' => Post::STATUS_PUBLISHED
+        ])->orderBy('update_time DESC');
+        if(isset($_GET['tag']))
+            $criteria = Post::find()->where([
+                'tags' => $_GET['tag'],
+                'status' => Post::STATUS_PUBLISHED
+                ])->orderBy('update_time DESC');
+
+        $dataProvider=new ActiveDataProvider([
+            'query'=>$criteria,
+            'pagination'=>[
+                'pageSize'=>5,
+            ]
+        ]);
+
+        return $this->render('index',[
+            'searchModel' => new PostSearch(),
+            'dataProvider'=>$dataProvider,
         ]);
     }
 

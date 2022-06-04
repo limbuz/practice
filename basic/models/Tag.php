@@ -67,10 +67,10 @@ class Tag extends \yii\db\ActiveRecord
     public function addTags($tags)
     {
         $criteria = $this::find()->where(['name' => $tags])->all();
-        $this->updateCounters(['frequency'=>1,$criteria]);
+        $this->updateCounters(['frequency'=>1]);
         foreach($tags as $name)
         {
-            $result = Tag::find()->where(['name' => $name], [':name'=>$name])->exists();
+            $result = Tag::find()->where(['name' => $name])->exists();
             if($result)
             {
                 $tag=new Tag;

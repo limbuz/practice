@@ -11,9 +11,9 @@ use Yii;
  * @property string|null $title
  * @property string|null $content
  * @property string|null $tags
- * @property string|null $status
- * @property string|null $create_time
- * @property string|null $update_time
+ * @property int|null $status
+ * @property int|null $create_time
+ * @property int|null $update_time
  * @property int|null $author_id
  *
  * @property User $author
@@ -25,21 +25,20 @@ class Post extends \yii\db\ActiveRecord
     const STATUS_PUBLISHED=2;
     const STATUS_ARCHIVED=3;
 
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
-        if(parent::beforeSave($insert))
-        {
-            if($this->isNewRecord)
-            {
-                $this->create_time=$this->update_time=time();
-                $this->author_id=Yii::$app->user->id;
-            }
-            else
-                $this->update_time=time();
-            return true;
-        }
-        else
+        if (!parent::beforeSave($insert)) {
             return false;
+        }
+
+        if ($insert) {
+            $this->create_time = date('Y-m-d');
+            $this->update_time = date('Y-m-d');
+            $this->author_id = Yii::$app->user->id;
+        } else {
+            $this->update_time = date('Y-m-d');
+        }
+        return true;
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -67,13 +66,12 @@ class Post extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
     public function rules()
     {
         return [
-            [['id'], 'required'],
             [['id', 'author_id'], 'integer'],
             [['title', 'content', 'tags', 'status', 'create_time', 'update_time'], 'string', 'max' => 45],
-            ['title, content, status', 'required'],
             ['status', 'in', 'range'=>array(1,2,3)],
             ['tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
                 'message'=>'В тегах можно использовать только буквы.'],
