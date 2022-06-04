@@ -42,31 +42,14 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PostSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Post model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
         $criteria = Post::find()->where(
             ['status' => Post::STATUS_PUBLISHED
-        ])->orderBy('update_time DESC');
+            ])->orderBy('update_time DESC');
         if(isset($_GET['tag']))
             $criteria = Post::find()->where([
                 'tags' => $_GET['tag'],
                 'status' => Post::STATUS_PUBLISHED
-                ])->orderBy('update_time DESC');
+            ])->orderBy('update_time DESC');
 
         $dataProvider=new ActiveDataProvider([
             'query'=>$criteria,
@@ -80,6 +63,22 @@ class PostController extends Controller
             'dataProvider'=>$dataProvider,
         ]);
     }
+
+    /**
+     * Displays a single Post model.
+     * @param int $id ID
+     * @return string
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionView($id)
+    {
+        $post=$this->loadModel();
+        return $this->render('view', [
+            'model' => $post,
+        ]);
+    }
+
+
 
     /**
      * Creates a new Post model.
@@ -169,5 +168,26 @@ class PostController extends Controller
                 'users'=>array('*'),
             ),
         );
+    }
+
+    private $_model;
+
+    private function loadModel()
+    {
+        if($this->_model===null)
+        {
+            if(isset($_GET['id']))
+            {
+                if(Yii::$app->user->isGuest)
+                    $condition='status='.Post::STATUS_PUBLISHED
+                        .' OR status='.Post::STATUS_ARCHIVED;
+                else
+                    $condition='';
+                $this->_model=Post::findOne(['id' => $_GET['id'], $condition]);
+            }
+            if($this->_model===null)
+                throw new NotFoundHttpException('Запрашиваемая страница не существует.');
+        }
+        return $this->_model;
     }
 }

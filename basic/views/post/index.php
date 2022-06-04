@@ -21,12 +21,12 @@ $this->title = 'Posts';
         <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php if(!empty($_GET['tag'])): ?>
         <h1>Записи с тегом <i><?php echo Html::encode($_GET['tag']); ?></i></h1>
     <?php endif; ?>
-    <?php ListView::widget([
+    <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => 'view',
         'layout' => "{items}\n{pager}",
