@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Comment;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -41,15 +42,27 @@ $this->title = $model->title;
     ]) ?>
 
     <div id="comments">
-        <?php if($model->comments>=1): ?>
-            <h3>
-                <?php echo count($model->comments) . ' comment(s)'; ?>
-            </h3>
 
-            <?php $this->context->renderPartial('_comments',
-                [ 'post'=>$model,
-                    'comments'=>$model->comments,
-                ]); ?>
+        <?php if(count($model->comments) >= 1): ?>
+                <?php echo '<h3>' . count($model->comments) . ' comment(s) <h3>';
+
+                echo $this->context->renderPartial('_comments',
+                    [ 'post'=>$model,
+                        'comments'=>$model->comments,
+                    ]); ?>
+        <?php endif; ?>
+
+        <h3>Оставить комментарий</h3>
+
+        <?php if(Yii::$app->session->hasFlash('commentSubmitted')): ?>
+            <div class="flash-success">
+                <?php echo Yii::$app->session->getFlash('commentSubmitted'); ?>
+            </div>
+        <?php else: ?>
+            <?php $comment = new Comment();
+            echo $this->context->renderPartial('/comment/_form',array(
+                'model'=> $comment,
+            )); ?>
         <?php endif; ?>
     </div>
 

@@ -4,7 +4,11 @@ namespace app\controllers;
 
 use app\models\Comment;
 use app\models\CommentSearch;
+use app\models\Post;
+use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -38,8 +42,11 @@ class CommentController extends Controller
      */
     public function actionIndex()
     {
+        $criteria = Comment::find()->with("post")->orderBy("status DESC, create_time DESC");
         $searchModel = new CommentSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $criteria,
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -80,6 +87,18 @@ class CommentController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionApprove()
+    {
+        if(Yii::$app->request->isPost)
+        {
+            $comment=$this->loadModel();
+            $comment->approve();
+            $this->redirect('index');
+        }
+        else
+            throw new HttpException('Invalid request...', 400);
     }
 
     /**
@@ -130,5 +149,19 @@ class CommentController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected $_model;
+
+    public function loadModel()
+    {
+        if($this->_model===null)
+        {
+            if(isset($_GET['id']))
+                $this->_model=Comment::findOne(['id'=>$_GET['id']]);
+            if($this->_model===null)
+                throw new HttpException('The requested page does not exist.', 404);
+        }
+        return $this->_model;
     }
 }

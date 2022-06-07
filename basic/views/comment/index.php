@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Comment;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;

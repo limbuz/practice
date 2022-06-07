@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
 use app\models\Post;
 use app\models\PostSearch;
 use app\models\Tag;
@@ -11,6 +12,7 @@ use yii\filters\AccessRule;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\widgets\ActiveForm;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -73,12 +75,31 @@ class PostController extends Controller
     public function actionView($id)
     {
         $post = $this->loadModel();
+        $comment=$this->newComment($post);
         return $this->render('view', [
             'model' => $post,
+            'comment' => $comment,
         ]);
     }
 
-
+    public function newComment($post)
+    {
+        $comment = new Comment;
+            if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
+            {
+                return ActiveForm::validate($comment);
+            }
+            if(isset($_POST['Comment'])) {
+                $comment->attributes = $_POST['Comment'];
+                if ($post->addComment($comment)) {
+                    if ($comment->status == Comment::STATUS_PENDING)
+                        Yii::$app->user->setFlash('commentSubmitted', 'Thank you for your comment.
+                Your comment will be posted once it is approved.');
+                    $this->refresh();
+                }
+            }
+        return $comment;
+    }
 
     /**
      * Creates a new Post model.

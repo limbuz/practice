@@ -34,6 +34,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
     public function rules()
     {
         return [
@@ -74,15 +75,32 @@ class Comment extends \yii\db\ActiveRecord
         return $this->hasOne(Post::className(), ['id' => 'post_id']);
     }
 
+    /**
+     * @throws \yii\db\StaleObjectException
+     */
+    public function approve()
+    {
+        $this->status=Comment::STATUS_APPROVED;
+        $this->update(true,['status']);
+    }
+
     public function beforeSave($insert)
     {
         if(parent::beforeSave($insert))
         {
-            if($this->isNewRecord)
-                $this->create_time=time();
+            if($this->isNewRecord) {
+                $this->create_time = time();
+                $this->author = Yii::$app->user->id;
+                $this->email = User::findOne(['id'=>Yii::$app->user->id])->email;
+            }
             return true;
         }
         else
             return false;
+    }
+
+    public function getUrl()
+    {
+        Yii::$app->urlManager->createUrl(['comment/view', 'id'=>$this->id]);
     }
 }
