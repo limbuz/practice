@@ -40,4 +40,17 @@ $this->title = $model->title;
         ],
     ]) ?>
 
+    <div id="comments">
+        <?php if($model->comments>=1): ?>
+            <h3>
+                <?php echo count($model->comments) . ' comment(s)'; ?>
+            </h3>
+
+            <?php $this->context->renderPartial('_comments',
+                [ 'post'=>$model,
+                    'comments'=>$model->comments,
+                ]); ?>
+        <?php endif; ?>
+    </div>
+
 </div>
