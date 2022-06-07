@@ -103,4 +103,9 @@ class Comment extends \yii\db\ActiveRecord
     {
         Yii::$app->urlManager->createUrl(['comment/view', 'id'=>$this->id]);
     }
+
+    public function getPendingCommentCount()
+    {
+        return count(Comment::findAll(['status' => self::STATUS_PENDING]));
+    }
 }

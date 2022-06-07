@@ -4,6 +4,8 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\Comment;
+use app\widgets\UserMenu;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
@@ -42,15 +44,22 @@ AppAsset::register($this);
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
+            ) : ( ['label' => Yii::$app->user->identity->username,
+                'items' => [
+                        ['label' => 'Создать новую запись', 'url' => ['post/create']],
+                        ['label' => 'Управление записями', 'url' => ['post/admin']],
+                        ['label' => 'Одобрение комментариев )', 'url' => ['comment/index']],
+
+                    ]
+                ]
+                /*'<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
-                . '</li>'
+                . '</li>'*/
             )
         ],
     ]);
