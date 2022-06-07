@@ -57,10 +57,10 @@ class Comment extends \yii\db\ActiveRecord
             'content' => 'Content',
             'status' => 'Status',
             'create_time' => 'Create Time',
-            'author' => 'Author',
+            'author' => 'Name',
             'email' => 'Email',
-            'url' => 'Url',
-            'post_id' => 'Post ID',
+            'url' => 'Website',
+            'post_id' => 'Post',
         ];
     }
 
@@ -72,5 +72,17 @@ class Comment extends \yii\db\ActiveRecord
     public function getPost()
     {
         return $this->hasOne(Post::className(), ['id' => 'post_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert))
+        {
+            if($this->isNewRecord)
+                $this->create_time=time();
+            return true;
+        }
+        else
+            return false;
     }
 }

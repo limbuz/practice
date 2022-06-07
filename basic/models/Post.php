@@ -55,6 +55,13 @@ class Post extends \yii\db\ActiveRecord
         $this->_oldTags=$this->tags;
     }
 
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        Comment::deleteAll('post_id='.$this->id);
+        (new Tag)->updateFrequency($this->tags, '');
+    }
+
     /**
      * {@inheritdoc}
      */

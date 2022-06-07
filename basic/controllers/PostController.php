@@ -72,7 +72,7 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        $post=$this->loadModel();
+        $post = $this->loadModel();
         return $this->render('view', [
             'model' => $post,
         ]);
@@ -151,8 +151,6 @@ class PostController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
 
     public function allows()
     {

@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Lookup;
+use app\models\Post;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -11,7 +13,7 @@ use yii\widgets\ListView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Posts';
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
 
@@ -21,11 +23,12 @@ $this->title = 'Posts';
         <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php if(!empty($_GET['tag'])): ?>
         <h1>Записи с тегом <i><?php echo Html::encode($_GET['tag']); ?></i></h1>
     <?php endif; ?>
+
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => 'view',
