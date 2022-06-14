@@ -48,7 +48,7 @@ $this->title = $model->title;
 
                 echo $this->context->renderPartial('_comments',
                     [ 'post'=>$model,
-                        'comments'=>$model->comments,
+                      'comments'=>$model->comments,
                     ]); ?>
         <?php endif; ?>
 
@@ -59,10 +59,11 @@ $this->title = $model->title;
                 <?php echo Yii::$app->session->getFlash('commentSubmitted'); ?>
             </div>
         <?php else: ?>
-            <?php $comment = new Comment();
-            echo $this->context->renderPartial('/comment/_form',array(
-                'model'=> $comment,
-            )); ?>
+            <?php
+            echo $this->context->renderPartial('/comment/_form',[
+                'model' => new Comment(),
+                'post' => $model,
+            ]); ?>
         <?php endif; ?>
     </div>
 

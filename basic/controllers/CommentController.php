@@ -67,11 +67,6 @@ class CommentController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Comment model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new Comment();
@@ -93,12 +88,12 @@ class CommentController extends Controller
     {
         if(Yii::$app->request->isPost)
         {
-            $comment=$this->loadModel();
+            $comment = $this->loadModel();
             $comment->approve();
             $this->redirect('index');
         }
         else
-            throw new HttpException('Invalid request...', 400);
+            throw new HttpException(400, 'Invalid request...');
     }
 
     /**

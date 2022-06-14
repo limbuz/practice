@@ -66,16 +66,15 @@ class Tag extends \yii\db\ActiveRecord
 
     public function addTags($tags)
     {
-        $criteria = $this::find()->where(['name' => $tags])->all();
-        $this->updateCounters(['frequency'=>1]);
+        $this->updateCounters(['frequency' => 1]);
         foreach($tags as $name)
         {
             $result = Tag::find()->where(['name' => $name])->exists();
             if($result)
             {
-                $tag=new Tag;
-                $tag->name=$name;
-                $tag->frequency=1;
+                $tag = new Tag();
+                $tag->name = $name;
+                $tag->frequency = 1;
                 $tag->save();
             }
         }
@@ -86,7 +85,25 @@ class Tag extends \yii\db\ActiveRecord
         if(empty($tags))
             return;
         $criteria = $this::find()->where(['name' => $tags])->all();
-        $this->updateCounters(['frequency'=>-1,$criteria]);
+        $this->updateCounters(['frequency'=>0,$criteria]);
         $this->deleteAll('frequency<=0');
+    }
+
+    public function findTagWeights($limit=20)
+    {
+        $models=Tag::find()->orderBy('frequency DESC')->limit($limit)->all();
+
+        $total = 0;
+        foreach($models as $model)
+            $total += $model->frequency;
+
+        $tags = array();
+        if($total > 0)
+        {
+            foreach($models as $model)
+                $tags[$model->name] = 8 + (int)(16 * $model->frequency / ($total + 10));
+            ksort($tags);
+        }
+        return $tags;
     }
 }

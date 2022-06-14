@@ -41,13 +41,14 @@ class Post extends \yii\db\ActiveRecord
         return true;
     }
 
+    private $_oldTags;
+
     public function afterSave($insert, $changedAttributes)
     {
+        $tag = new Tag();
         parent::afterSave($insert, $changedAttributes);
-        (new Tag)->updateFrequency($this->_oldTags, $this->tags);
+        $tag->updateFrequency($this->_oldTags, $this->tags);
     }
-
-    private $_oldTags;
 
     public function afterFind()
     {
@@ -60,16 +61,6 @@ class Post extends \yii\db\ActiveRecord
         parent::afterDelete();
         Comment::deleteAll('post_id='.$this->id);
         (new Tag)->updateFrequency($this->tags, '');
-    }
-
-    public function addComment($comment)
-    {
-        if(Yii::$app->params['commentNeedApproval'])
-            $comment->status=Comment::STATUS_PENDING;
-        else
-            $comment->status=Comment::STATUS_APPROVED;
-        $comment->post_id=$this->id;
-        return $comment->save();
     }
 
     /**
@@ -90,8 +81,6 @@ class Post extends \yii\db\ActiveRecord
             [['id', 'author_id'], 'integer'],
             [['title', 'content', 'tags', 'status', 'create_time', 'update_time'], 'string', 'max' => 45],
             ['status', 'in', 'range'=>array(1,2,3)],
-            ['tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
-                'message'=>'В тегах можно использовать только буквы.'],
             ['tags', 'normalizeTags'],
             ['title, status', 'safe', 'on'=>'search'],
             [['id'], 'unique'],

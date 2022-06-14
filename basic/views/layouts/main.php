@@ -4,6 +4,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\components\TagCloud;
 use app\models\Comment;
 use app\components\UserMenu;
 use app\widgets\Alert;
@@ -44,7 +45,8 @@ AppAsset::register($this);
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
-            ) : ( \app\components\UserMenu::widget())
+            ) : ( UserMenu::widget()),
+            TagCloud::widget(),
         ],
     ]);
     NavBar::end();

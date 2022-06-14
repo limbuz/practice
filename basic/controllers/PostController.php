@@ -75,31 +75,29 @@ class PostController extends Controller
     public function actionView($id)
     {
         $post = $this->loadModel();
-        $comment=$this->newComment($post);
+        //$comment = $this->newComment($post);
+
         return $this->render('view', [
             'model' => $post,
-            'comment' => $comment,
+            //'comment' => $comment,
         ]);
     }
 
-    public function newComment($post)
+    /*public function newComment($post)
     {
-        $comment = new Comment;
-            if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
-            {
-                return ActiveForm::validate($comment);
+        $comment = new Comment();
+
+        if(isset($_POST['Comment'])) {
+            $comment->attributes = $_POST['Comment'];
+            $comment->status = Comment::STATUS_APPROVED;
+            $comment->post_id = $post->id;
+            if ($comment->save()) {
+                Yii::$app->session->setFlash('commentSubmitted', 'Данные приняты');
+                $this->refresh();
             }
-            if(isset($_POST['Comment'])) {
-                $comment->attributes = $_POST['Comment'];
-                if ($post->addComment($comment)) {
-                    if ($comment->status == Comment::STATUS_PENDING)
-                        Yii::$app->user->setFlash('commentSubmitted', 'Thank you for your comment.
-                Your comment will be posted once it is approved.');
-                    $this->refresh();
-                }
-            }
+        }
         return $comment;
-    }
+    }*/
 
     /**
      * Creates a new Post model.

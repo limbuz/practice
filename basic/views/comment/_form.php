@@ -7,15 +7,12 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Comment */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $post */
+/* @var $post app\models\Post */
 ?>
 
 <div class="comment-form">
 
-    <?php $form = ActiveForm::begin([
-            'id' => "comment-form",
-            'enableAjaxValidation' => true,
-    ]); ?>
+    <?php $form = ActiveForm::begin(['action' => ['comment/create']]); ?>
 
     <!--?= $form->field($model, 'id')->textInput() ?-->
 
@@ -31,7 +28,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
-    <!--?= $form->field($model, 'post_id')->textInput() ?-->
+    <?= $form->field($model, 'post_id', ['template' => '{input}'])->textInput(['value' => $post->id, 'type' => 'hidden']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
