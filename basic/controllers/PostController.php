@@ -75,29 +75,11 @@ class PostController extends Controller
     public function actionView($id)
     {
         $post = $this->loadModel();
-        //$comment = $this->newComment($post);
 
         return $this->render('view', [
             'model' => $post,
-            //'comment' => $comment,
         ]);
     }
-
-    /*public function newComment($post)
-    {
-        $comment = new Comment();
-
-        if(isset($_POST['Comment'])) {
-            $comment->attributes = $_POST['Comment'];
-            $comment->status = Comment::STATUS_APPROVED;
-            $comment->post_id = $post->id;
-            if ($comment->save()) {
-                Yii::$app->session->setFlash('commentSubmitted', 'Данные приняты');
-                $this->refresh();
-            }
-        }
-        return $comment;
-    }*/
 
     /**
      * Creates a new Post model.
@@ -150,6 +132,7 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
+        Comment::deleteAll(['post_id' => $id]);
         $this->findModel($id,'')->delete();
 
         return $this->redirect(['index']);
@@ -169,22 +152,6 @@ class PostController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function allows()
-    {
-        return array(
-            array('allow',  // позволим всем пользователям выполнять действия 'list' и 'show'
-                'actions'=>array('index', 'view'),
-                'users'=>array('*'),
-            ),
-            array('allow', // позволим аутентифицированным пользователям выполнять любые действия
-                'users'=>array('@'),
-            ),
-            array('deny',  // остальным запретим всё
-                'users'=>array('*'),
-            ),
-        );
     }
 
     private $_model;

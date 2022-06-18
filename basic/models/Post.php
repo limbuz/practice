@@ -41,26 +41,23 @@ class Post extends \yii\db\ActiveRecord
         return true;
     }
 
-    private $_oldTags;
-
     public function afterSave($insert, $changedAttributes)
     {
-        $tag = new Tag();
         parent::afterSave($insert, $changedAttributes);
-        $tag->updateFrequency($this->_oldTags, $this->tags);
+        Tag::addTags($this->tags);
     }
 
-    public function afterFind()
+    /* public function afterFind()
     {
-        parent::afterFind();
         $this->_oldTags=$this->tags;
-    }
+        parent::afterFind();
+    } */
 
     public function afterDelete()
     {
+        $tag = new Tag();
         parent::afterDelete();
-        Comment::deleteAll('post_id='.$this->id);
-        (new Tag)->updateFrequency($this->tags, '');
+        $tag->removeTags(Tag::string2array($this->tags));
     }
 
     /**
@@ -79,7 +76,8 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'author_id'], 'integer'],
-            [['title', 'content', 'tags', 'status', 'create_time', 'update_time'], 'string', 'max' => 45],
+            [['title', 'tags', 'status', 'create_time', 'update_time'], 'string', 'max' => 45],
+            [['content'], 'string', 'max' => 500],
             ['status', 'in', 'range'=>array(1,2,3)],
             ['tags', 'normalizeTags'],
             ['title, status', 'safe', 'on'=>'search'],

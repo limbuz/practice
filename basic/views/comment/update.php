@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Post;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'post' => Post::findOne(['id' => $model->post_id])
     ]) ?>
 
 </div>

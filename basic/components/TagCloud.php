@@ -14,15 +14,15 @@ class TagCloud extends Widget
     public function run()
     {
         $tag = new Tag();
-        $tags= $tag->findTagWeights($this->maxTags);
+        $tags = $tag->findTagWeights($this->maxTags);
 
-        foreach($tags as $tag=>$weight)
+        foreach($tags as $tag => $weight)
         {
-            $link=Html::a(Html::encode($tag), array('post/index','tag'=>$tag));
-            echo Html::tag('span', array(
-            'class'=>'tag',
-            'style'=>"font-size:{$weight}pt",
-            ), $link)."\n";
+            $link = Html::a(Html::encode($tag), array('post/index', 'tag' => $tag));
+            echo Html::tag('span', $link . "\n", array(
+            'class' => 'tag',
+            'style' => "font-size:{$weight}pt",
+            ));
         }
     }
 }

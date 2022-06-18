@@ -64,29 +64,37 @@ class Tag extends \yii\db\ActiveRecord
         $this->removeTags(array_values(array_diff($oldTags,$newTags)));
     }
 
-    public function addTags($tags)
+    public static function addTags($tags)
     {
-        $this->updateCounters(['frequency' => 1]);
-        foreach($tags as $name)
+        $array = self::string2array($tags);
+
+        foreach($array as $name)
         {
-            $result = Tag::find()->where(['name' => $name])->exists();
-            if($result)
+            $result = Tag::findOne(['name' => $name]);
+            if ($result === null)
             {
                 $tag = new Tag();
                 $tag->name = $name;
                 $tag->frequency = 1;
                 $tag->save();
             }
+            else {
+                $result->updateCounters(['frequency' => ($result->frequency + 1)]);
+            }
         }
     }
 
-    public function removeTags($tags)
+    public static function removeTags($tags)
     {
         if(empty($tags))
             return;
-        $criteria = $this::find()->where(['name' => $tags])->all();
-        $this->updateCounters(['frequency'=>0,$criteria]);
-        $this->deleteAll('frequency<=0');
+
+        foreach($tags as $name) {
+            $tag = Tag::findOne(['name' => $name]);
+            $tag->updateCounters(['frequency' => ($tag->frequency - 1)]);
+        }
+
+        Tag::deleteAll('frequency <= 0');
     }
 
     public function findTagWeights($limit=20)

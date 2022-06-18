@@ -89,7 +89,7 @@ class Comment extends \yii\db\ActiveRecord
         {
             if($this->isNewRecord) {
                 $this->create_time = time();
-                $this->author = Yii::$app->user->id;
+                $this->author = Yii::$app->user->identity->username;
                 $this->email = User::findOne(['id'=>Yii::$app->user->id])->email;
             }
             return true;
