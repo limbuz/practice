@@ -55,14 +55,6 @@ class Tag extends \yii\db\ActiveRecord
         return implode(', ',$tags);
     }
 
-    public function updateFrequency($oldTags, $newTags)
-    {
-        $oldTags=self::string2array($oldTags);
-        $newTags=self::string2array($newTags);
-        $this->addTags(array_values(array_diff($newTags,$oldTags)));
-        $this->removeTags(array_values(array_diff($oldTags,$newTags)));
-    }
-
     public static function addTags($tags)
     {
         $array = self::string2array($tags);

@@ -47,12 +47,6 @@ class Post extends \yii\db\ActiveRecord
         Tag::addTags($this->tags);
     }
 
-    /* public function afterFind()
-    {
-        $this->_oldTags=$this->tags;
-        parent::afterFind();
-    } */
-
     public function afterDelete()
     {
         parent::afterDelete();
