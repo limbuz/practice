@@ -55,9 +55,8 @@ class Post extends \yii\db\ActiveRecord
 
     public function afterDelete()
     {
-        $tag = new Tag();
         parent::afterDelete();
-        $tag->removeTags(Tag::string2array($this->tags));
+        Tag::removeTags($this->tags);
     }
 
     /**
@@ -89,7 +88,7 @@ class Post extends \yii\db\ActiveRecord
     /**
      * tag normalize
      */
-    public function normalizeTags($attribute,$params)
+    public function normalizeTags()
     {
         $this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
     }

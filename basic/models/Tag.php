@@ -27,7 +27,6 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
             [['id', 'frequency'], 'integer'],
             [['name'], 'string', 'max' => 45],
             [['id'], 'unique'],
@@ -48,7 +47,7 @@ class Tag extends \yii\db\ActiveRecord
 
     public static function string2array($tags)
     {
-        return preg_split('/\s*,\s*/',trim($tags),-1,PREG_SPLIT_NO_EMPTY);
+        return preg_split('/\s*, \s*/',trim($tags),-1,PREG_SPLIT_NO_EMPTY);
     }
 
     public static function array2string($tags)
@@ -76,25 +75,27 @@ class Tag extends \yii\db\ActiveRecord
                 $tag = new Tag();
                 $tag->name = $name;
                 $tag->frequency = 1;
-                $tag->save();
+                $tag->save(false);
             }
             else {
-                $result->updateCounters(['frequency' => ($result->frequency + 1)]);
+                $result->updateCounters(['frequency' => 1]);
             }
         }
     }
 
     public static function removeTags($tags)
     {
-        if(empty($tags))
+        $array = self::string2array($tags);
+
+        if(empty($array))
             return;
 
-        foreach($tags as $name) {
+        foreach ($array as $name) {
             $tag = Tag::findOne(['name' => $name]);
-            $tag->updateCounters(['frequency' => ($tag->frequency - 1)]);
+            $tag->updateCounters(['frequency' => -1]);
         }
 
-        Tag::deleteAll('frequency <= 0');
+        Tag::deleteAll('frequency = 0');
     }
 
     public function findTagWeights($limit=20)

@@ -89,6 +89,7 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
+        $tag = new Tag();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
