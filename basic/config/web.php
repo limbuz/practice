@@ -43,14 +43,19 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'site/index',
+                '<action:login|logout|about|contact>' => 'site/<action>',
+                '/about' => 'site/about',
+                'post/<id:\d+>/<title:.*?>' => 'post/view',
+                'posts/<tag:.*?>' => 'post/index',
+                'post/update/<id:\d+>' => 'post/update',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
