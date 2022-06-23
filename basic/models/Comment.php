@@ -31,6 +31,14 @@ class Comment extends \yii\db\ActiveRecord
         return 'tbl_comment';
     }
 
+    public static function findRecentComments($limit=10)
+    {
+        return Comment::find()->where(['status' => 2])->
+                                limit($limit)->
+                                orderBy('create_time DESC')->
+                                with('post')->all();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -100,7 +108,7 @@ class Comment extends \yii\db\ActiveRecord
 
     public function getUrl()
     {
-        Yii::$app->urlManager->createUrl(['comment/view', 'id'=>$this->id]);
+        return Yii::$app->urlManager->createUrl(['comment/view', 'id'=>$this->id]);
     }
 
     public function getPendingCommentCount()

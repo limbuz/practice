@@ -4,6 +4,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\components\RecentComments;
 use app\components\TagCloud;
 use app\models\Comment;
 use app\components\UserMenu;
@@ -46,7 +47,8 @@ AppAsset::register($this);
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : ( UserMenu::widget()),
-            TagCloud::widget(),
+            //TagCloud::widget(),
+            //RecentComments::widget()
         ],
     ]);
     NavBar::end();
@@ -59,8 +61,22 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+
+        <div id="content">
+            <?php echo $content; ?>
+        </div>
+        <hr>
+        <div class="span-6 last">
+            <div id="sidebar">
+                <p>Tag Cloud:</p>
+                <?= TagCloud::widget(); ?>
+                <br><hr>
+                <p>Recent comments:</p>
+                <?= RecentComments::widget(); ?>
+            </div>
+        </div>
     </div>
+
 </main>
 
 <footer class="footer mt-auto py-3 text-muted">

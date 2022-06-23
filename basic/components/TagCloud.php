@@ -8,8 +8,8 @@ use yii\helpers\Html;
 
 class TagCloud extends Widget
 {
-    public $title='Tags';
-    public $maxTags=20;
+    public $title = 'Tags';
+    public $maxTags = 20;
 
     public function run()
     {
