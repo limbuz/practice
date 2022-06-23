@@ -65,6 +65,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->authKey;
     }
 
+    public static function isAdmin() {
+        return Yii::$app->user->identity->id === 1;
+    }
+
     /**
      * {@inheritdoc}
      */

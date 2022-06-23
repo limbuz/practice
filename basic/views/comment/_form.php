@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Lookup;
+use app\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -18,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model,'status')->dropDownList(Lookup::items('CommentStatus')); ?>
+    <?php if (User::isAdmin()) echo $form->field($model,'status')->dropDownList(Lookup::items('CommentStatus')); ?>
 
     <!--?= $form->field($model, 'create_time')->textInput() ?-->
 

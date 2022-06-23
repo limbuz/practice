@@ -42,10 +42,13 @@ class CommentController extends Controller
      */
     public function actionIndex()
     {
-        $criteria = Comment::find()->with("post")->orderBy("status DESC, create_time DESC");
+        $criteria = Comment::find()->with("post")->orderBy("status ASC, create_time DESC");
         $searchModel = new CommentSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $criteria,
+            'pagination'=>[
+                'pageSize'=>10,
+            ]
         ]);
 
         return $this->render('index', [
@@ -72,7 +75,7 @@ class CommentController extends Controller
         $model = new Comment();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post()) && $model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -90,7 +93,7 @@ class CommentController extends Controller
         {
             $comment = $this->loadModel();
             $comment->approve();
-            $this->redirect('index');
+            return $this->redirect('index');
         }
         else
             throw new HttpException(400, 'Invalid request...');

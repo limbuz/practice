@@ -138,6 +138,29 @@ class PostController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionAdmin()
+    {
+        $criteria = Post::find()->orderBy('status ASC');
+
+        $dataProvider=new ActiveDataProvider([
+            'query'=>$criteria,
+            'pagination'=>[
+                'pageSize'=>10,
+            ]
+        ]);
+
+        $model=new Post();
+
+        if(isset($_GET['Post']))
+            $model->attributes=$_GET['Post'];
+
+        return $this->render('admin', [
+            'model' => $model,
+            'searchModel' => new PostSearch(),
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Finds the Post model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

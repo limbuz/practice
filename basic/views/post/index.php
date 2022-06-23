@@ -19,9 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php if (!Yii::$app->user->isGuest)
+        echo Html::a('Create Post', ['create'], ['class' => 'btn btn-success'])?>
 
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -33,29 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'itemView' => 'view',
         'layout' => "{items}\n{pager}",
-    ]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title',
-            'content',
-            'tags',
-            'status',
-            //'create_time',
-            //'update_time',
-            //'author_id',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
     ]); ?>
 
 

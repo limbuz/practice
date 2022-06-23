@@ -99,6 +99,9 @@ class Comment extends \yii\db\ActiveRecord
                 $this->create_time = time();
                 $this->author = Yii::$app->user->identity->username;
                 $this->email = User::findOne(['id'=>Yii::$app->user->id])->email;
+                if (!User::isAdmin()) {
+                    $this->status = self::STATUS_PENDING;
+                }
             }
             return true;
         }

@@ -35,6 +35,9 @@ class Post extends \yii\db\ActiveRecord
             $this->create_time = date('Y-m-d');
             $this->update_time = date('Y-m-d');
             $this->author_id = Yii::$app->user->id;
+            if (!User::isAdmin()) {
+                $this->status = self::STATUS_DRAFT;
+            }
         } else {
             $this->update_time = date('Y-m-d');
         }

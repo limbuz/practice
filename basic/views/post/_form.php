@@ -2,6 +2,7 @@
 
 use app\models\Lookup;
 use app\models\Post;
+use app\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -22,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tags')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model,'status')->dropDownList(Lookup::items('PostStatus')); ?>
+    <?php if (User::isAdmin()) echo $form->field($model,'status')->dropDownList(Lookup::items('PostStatus')); ?>
 
     <!--?= $form->field($model, 'create_time')->textInput(['maxlength' => true]) ?-->
 
