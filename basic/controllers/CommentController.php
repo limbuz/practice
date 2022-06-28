@@ -87,11 +87,11 @@ class CommentController extends Controller
         ]);
     }
 
-    public function actionApprove()
+    public function actionApprove($id)
     {
         if(Yii::$app->request->isPost)
         {
-            $comment = $this->loadModel();
+            $comment = $this->findModel($id);
             $comment->approve();
             return $this->redirect('index');
         }

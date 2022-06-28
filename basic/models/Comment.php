@@ -88,14 +88,14 @@ class Comment extends \yii\db\ActiveRecord
     public function approve()
     {
         $this->status=Comment::STATUS_APPROVED;
-        $this->update(true,['status']);
+        $this->update(true, ['status']);
     }
 
     public function beforeSave($insert)
     {
         if(parent::beforeSave($insert))
         {
-            if($this->isNewRecord) {
+            if($insert) {
                 $this->create_time = time();
                 $this->author = Yii::$app->user->identity->username;
                 $this->email = User::findOne(['id'=>Yii::$app->user->id])->email;

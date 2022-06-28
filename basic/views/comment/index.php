@@ -39,9 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
             //'post_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Comment $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'buttons'=>[
+                    'approve' => function ($url, $model, $key) {
+                        return Html::a('approve', $url, ['data' => ['method' => 'post']]);
+                    },
+                ],
+                'template' => '{view} {delete} {approve}'
             ],
         ],
     ]); ?>
