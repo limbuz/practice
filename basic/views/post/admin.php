@@ -34,7 +34,7 @@ echo Breadcrumbs::widget(['tag' => 'Manage Posts']);
             'author_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

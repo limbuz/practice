@@ -7,6 +7,7 @@ use app\models\CommentSearch;
 use app\models\Post;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\StaleObjectException;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -46,8 +47,8 @@ class CommentController extends Controller
         $searchModel = new CommentSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $criteria,
-            'pagination'=>[
-                'pageSize'=>10,
+            'pagination' => [
+                'pageSize' => 10,
             ]
         ]);
 
@@ -70,6 +71,9 @@ class CommentController extends Controller
         ]);
     }
 
+    /**
+     * @return \yii\web\Response|string
+     */
     public function actionCreate()
     {
         $model = new Comment();
@@ -87,6 +91,13 @@ class CommentController extends Controller
         ]);
     }
 
+    /**
+     * @param int $id ID
+     * @return \yii\web\Response
+     * @throws StaleObjectException
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     */
     public function actionApprove($id)
     {
         if(Yii::$app->request->isPost)
@@ -95,8 +106,9 @@ class CommentController extends Controller
             $comment->approve();
             return $this->redirect('index');
         }
-        else
+        else {
             throw new HttpException(400, 'Invalid request...');
+        }
     }
 
     /**
@@ -149,16 +161,20 @@ class CommentController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected $_model;
+    protected ?Comment $_model;
 
-    public function loadModel()
+    /**
+     * @throws HttpException
+     */
+    public function loadModel(): ?Comment
     {
-        if($this->_model===null)
-        {
-            if(isset($_GET['id']))
-                $this->_model=Comment::findOne(['id'=>$_GET['id']]);
-            if($this->_model===null)
+        if($this->_model === null) {
+            if(isset($_GET['id'])) {
+                $this->_model = Comment::findOne(['id' => $_GET['id']]);
+            }
+            if($this->_model === null) {
                 throw new HttpException('The requested page does not exist.', 404);
+            }
         }
         return $this->_model;
     }

@@ -65,7 +65,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->authKey;
     }
 
-    public static function isAdmin() {
+    /**
+     * @return bool
+     */
+    public static function isAdmin()
+    {
         return Yii::$app->user->identity->id === 1;
     }
 
@@ -102,10 +106,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id'], 'integer'],
-            [['username', 'password', 'salt', 'email', 'profile'], 'string', 'max' => 45],
-            [['id'], 'unique'],
+            [['username', 'salt', 'email', 'profile'], 'string', 'max' => 45],
+            [['password'], 'string', 'max' => 100],
         ];
     }
 

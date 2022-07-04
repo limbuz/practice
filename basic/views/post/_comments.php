@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $comments app\models\Comment[] */
 
 foreach($comments as $comment):
-    if ($comment->status !== Comment::STATUS_PENDING) echo
-    '<div class="comment" id="c' . $comment->id . '">' .
+    if ($comment->status !== Comment::STATUS_PENDING) {
+        echo '<div class="comment" id="c' . $comment->id . '">' .
 
         Html::a("#{$comment->id}", $comment->getUrl(), array(
             'class'=>'cid',
@@ -27,4 +27,5 @@ foreach($comments as $comment):
         '</div>
 
     </div>';
-endforeach; ?>
+    }
+endforeach;

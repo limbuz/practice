@@ -9,15 +9,12 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Post */
 
 $this->title = $model->title;
-//$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
-//$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="post-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php if (!Yii::$app->user->isGuest)
-        if (User::isAdmin() || Yii::$app->user->identity->id === $model->author_id)
+    <?php if (!Yii::$app->user->isGuest && (User::isAdmin() || Yii::$app->user->identity->id === $model->author_id)) {
             echo '<p>' .
                 Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) . ' ' .
                 Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -28,6 +25,7 @@ $this->title = $model->title;
                     ],
                 ]) .
                 '</p>';
+    }
     ?>
 
     <?= DetailView::widget([
@@ -47,8 +45,9 @@ $this->title = $model->title;
     <div id="comments">
         <?php $comments = 0;
             foreach ($model->comments as $comment) {
-                if ($comment->status == Comment::STATUS_APPROVED)
+                if ($comment->status == Comment::STATUS_APPROVED) {
                     $comments++;
+                }
             } ?>
         <?php if($comments > 0): ?>
                 <?php echo '<h3>' . $comments . ' comment(s) <h3>';
@@ -59,12 +58,13 @@ $this->title = $model->title;
                     ]); ?>
         <?php endif; ?>
 
-        <?php if(!Yii::$app->user->isGuest)
+        <?php if(!Yii::$app->user->isGuest) {
             echo '<h3>Оставить комментарий</h3>' .
             $this->context->renderPartial('/comment/_form',[
                 'model' => new Comment(),
                 'post' => $model,
-            ]); ?>
+            ]);
+        } ?>
     </div>
 
 </div>

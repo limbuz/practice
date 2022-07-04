@@ -21,8 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -39,8 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'post_id',
             [
                 'class' => ActionColumn::className(),
-                'buttons'=>[
-                    'approve' => function ($url, $model, $key) {
+                'buttons' => [
+                    'approve' => function ($url) {
                         return Html::a('approve', $url, ['data' => ['method' => 'post']]);
                     },
                 ],

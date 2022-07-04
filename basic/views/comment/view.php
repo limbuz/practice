@@ -8,7 +8,6 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Comment */
 
 $this->title = $model->id;
-//$this->params['breadcrumbs'][] = ['label' => 'Comments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

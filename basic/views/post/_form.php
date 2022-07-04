@@ -23,7 +23,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tags')->textInput(['maxlength' => true]) ?>
 
-    <?php if (User::isAdmin()) echo $form->field($model,'status')->dropDownList(Lookup::items('PostStatus')); ?>
+    <?php if (User::isAdmin()): ?>
+        <?= $form->field($model,'status')->dropDownList(Lookup::items('PostStatus')); ?>
+    <?php endif; ?>
 
     <!--?= $form->field($model, 'create_time')->textInput(['maxlength' => true]) ?-->
 

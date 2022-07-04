@@ -21,9 +21,9 @@ use Yii;
  */
 class Post extends \yii\db\ActiveRecord
 {
-    const STATUS_DRAFT=1;
-    const STATUS_PUBLISHED=2;
-    const STATUS_ARCHIVED=3;
+    const STATUS_DRAFT = 1;
+    const STATUS_PUBLISHED = 2;
+    const STATUS_ARCHIVED = 3;
 
     public function beforeSave($insert): bool
     {
@@ -87,7 +87,7 @@ class Post extends \yii\db\ActiveRecord
      */
     public function normalizeTags()
     {
-        $this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
+        $this->tags = Tag::array2string(array_unique(Tag::string2array($this->tags)));
     }
 
     /**
@@ -127,8 +127,8 @@ class Post extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::className(), ['post_id' => 'id']);
     }
 
-    public function getUrl()
+    public function getUrl(): string
     {
-        Yii::$app->urlManager->createUrl(['post/view', 'id'=>$this->id, 'title'=>$this->title]);
+        return Yii::$app->urlManager->createUrl(['post/view', 'id'=>$this->id, 'title'=>$this->title]);
     }
 }

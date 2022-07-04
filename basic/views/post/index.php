@@ -19,13 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (!Yii::$app->user->isGuest)
-        echo Html::a('Create Post', ['create'], ['class' => 'btn btn-success'])?>
-
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php if (!Yii::$app->user->isGuest) {
+        echo Html::a('Create Post', ['create'], ['class' => 'btn btn-success']);
+    }?>
 
     <?php if(!empty($_GET['tag'])): ?>
-        <h1>Записи с тегом <i><?php echo Html::encode($_GET['tag']); ?></i></h1>
+        <h1>Записи с тегом <em><?php echo Html::encode($_GET['tag']); ?></em></h1>
     <?php endif; ?>
 
     <?= ListView::widget([

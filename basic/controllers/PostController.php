@@ -44,25 +44,26 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
-        $criteria = Post::find()->where(
-            ['status' => Post::STATUS_PUBLISHED
-            ])->orderBy('update_time DESC');
-        if(isset($_GET['tag']))
-            $criteria = Post::find()->where([
-                'tags' => $_GET['tag'],
-                'status' => Post::STATUS_PUBLISHED
-            ])->orderBy('update_time DESC');
+        $criteria = Post::find()->
+                          where(['status' => Post::STATUS_PUBLISHED])->
+                          orderBy('update_time DESC');
 
-        $dataProvider=new ActiveDataProvider([
-            'query'=>$criteria,
-            'pagination'=>[
-                'pageSize'=>5,
+        if(isset($_GET['tag'])) {
+            $criteria = Post::find()->
+                              where(['tags' => $_GET['tag'], 'status' => Post::STATUS_PUBLISHED])->
+                              orderBy('update_time DESC');
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $criteria,
+            'pagination' => [
+                'pageSize' => 5,
             ]
         ]);
 
         return $this->render('index',[
             'searchModel' => new PostSearch(),
-            'dataProvider'=>$dataProvider,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -138,21 +139,25 @@ class PostController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * @return string
+     */
     public function actionAdmin()
     {
         $criteria = Post::find()->orderBy('status ASC');
 
-        $dataProvider=new ActiveDataProvider([
-            'query'=>$criteria,
-            'pagination'=>[
+        $dataProvider = new ActiveDataProvider([
+            'query' => $criteria,
+            'pagination' => [
                 'pageSize'=>10,
             ]
         ]);
 
-        $model=new Post();
+        $model = new Post();
 
-        if(isset($_GET['Post']))
-            $model->attributes=$_GET['Post'];
+        if(isset($_GET['Post'])) {
+            $model->attributes = $_GET['Post'];
+        }
 
         return $this->render('admin', [
             'model' => $model,
@@ -177,23 +182,27 @@ class PostController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    private $_model;
+    private ?Post $_model;
 
-    private function loadModel()
+    /**
+     * @throws NotFoundHttpException
+     */
+    private function loadModel(): ?Post
     {
-        if($this->_model===null)
-        {
-            if(isset($_GET['id']))
-            {
-                if(Yii::$app->user->isGuest)
-                    $condition='status='.Post::STATUS_PUBLISHED
-                        .' OR status='.Post::STATUS_ARCHIVED;
-                else
-                    $condition='';
-                $this->_model=Post::findOne(['id' => $_GET['id'], $condition]);
+        if($this->_model === null) {
+            if(isset($_GET['id'])) {
+                if(Yii::$app->user->isGuest) {
+                    $condition = 'status=' . Post::STATUS_PUBLISHED
+                        . ' OR status=' . Post::STATUS_ARCHIVED;
+                }
+                else {
+                    $condition = '';
+                }
+                $this->_model = Post::findOne(['id' => $_GET['id'], $condition]);
             }
-            if($this->_model===null)
+            if($this->_model === null) {
                 throw new NotFoundHttpException('Запрашиваемая страница не существует.');
+            }
         }
         return $this->_model;
     }

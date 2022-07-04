@@ -53,25 +53,30 @@ class Lookup extends \yii\db\ActiveRecord
 
     private static array $_items;
 
-    public static function items($type)
+    public static function items($type): array
     {
-        if(!isset(self::$_items[$type]))
+        if(!isset(self::$_items[$type])) {
             self::loadItems($type);
+        }
         return self::$_items[$type];
     }
 
-    public static function item($type,$code)
+    public static function item($type, $code): bool
     {
-        if(!isset(self::$_items[$type]))
+        if(!isset(self::$_items[$type])) {
             self::loadItems($type);
+        }
         return self::$_items[$type][$code] ?? false;
     }
 
     private static function loadItems($type)
     {
-        self::$_items[$type]=array();
-        $models=Lookup::find()->where('type=:type')->params([':type'=>$type])->orderBy('position')->all();
-        foreach($models as $model)
-            self::$_items[$type][$model->code]=$model->name;
+        self::$_items[$type] = array();
+        $models = Lookup::find()->where('type=:type')->params([':type'=>$type])->orderBy('position')->all();
+
+        /** @var Lookup $model */
+        foreach($models as $model) {
+            self::$_items[$type][$model->code] = $model->name;
+        }
     }
 }

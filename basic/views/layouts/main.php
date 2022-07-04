@@ -46,9 +46,8 @@ AppAsset::register($this);
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
-            ) : ( UserMenu::widget()),
-            //TagCloud::widget(),
-            //RecentComments::widget()
+            ) : (UserMenu::widget()),
+            Yii::$app->user->isGuest ? (['label' => 'Register', 'url' => ['/site/register']]) : "",
         ],
     ]);
     NavBar::end();

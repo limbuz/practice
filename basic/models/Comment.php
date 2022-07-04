@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
+use yii\db\StaleObjectException;
 
 /**
  * This is the model class for table "tbl_comment".
@@ -31,7 +33,7 @@ class Comment extends \yii\db\ActiveRecord
         return 'tbl_comment';
     }
 
-    public static function findRecentComments($limit=10)
+    public static function findRecentComments($limit = 10): array
     {
         return Comment::find()->where(['status' => 2])->
                                 limit($limit)->
@@ -75,7 +77,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Post]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getPost()
     {
@@ -83,38 +85,46 @@ class Comment extends \yii\db\ActiveRecord
     }
 
     /**
-     * @throws \yii\db\StaleObjectException
+     * @throws StaleObjectException
      */
     public function approve()
     {
-        $this->status=Comment::STATUS_APPROVED;
+        $this->status = Comment::STATUS_APPROVED;
         $this->update(true, ['status']);
     }
 
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         if(parent::beforeSave($insert))
         {
             if($insert) {
                 $this->create_time = time();
                 $this->author = Yii::$app->user->identity->username;
-                $this->email = User::findOne(['id'=>Yii::$app->user->id])->email;
+
+                $user = User::findOne(['id'=>Yii::$app->user->id]);
+                if ($user !== null) {
+                    $this->email = $user->email;
+                } else {
+                    $this->email = '';
+                }
+
                 if (!User::isAdmin()) {
                     $this->status = self::STATUS_PENDING;
                 }
             }
             return true;
         }
-        else
+        else {
             return false;
+        }
     }
 
-    public function getUrl()
+    public function getUrl(): string
     {
         return Yii::$app->urlManager->createUrl(['comment/view', 'id'=>$this->id]);
     }
 
-    public function getPendingCommentCount()
+    public function getPendingCommentCount(): int
     {
         return count(Comment::findAll(['status' => self::STATUS_PENDING]));
     }
