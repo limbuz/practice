@@ -379,18 +379,12 @@ w
 G.idea/sonarlint/issuestore/4/d/4db6791bfea68dac5603ed77ea9610dc1a0d7211,1\f\1fa74973ae1a004b910380dfeb96cb1e552de867
 w
 G.idea/sonarlint/issuestore/d/c/dce11b5f9293c2bd2407ae503cceb4e1877f87a3,a\f\af8e19a09942824c3a00a96881a494c0d7cbb751
-J
-basic/views/city/_form.php,2\3\23c00fc55570455a92e7f473609d290fba32f393
-N
-basic/views/feedback/_form.php,e\6\e666659573f29801f1e3ac10913f1561195613d4
 L
 basic/views/city/_search.php,1\b\1b98cf132f4333fabb78debc18e68dc28a6287b2
 P
  basic/views/feedback/_search.php,6\7\675cfb11508d25d712a7a82728656ae2d1068289
 K
 basic/models/CitySearch.php,5\6\56db4daee21d3a906e8ca0e04ed2cd9d58f30987
-K
-basic/views/city/create.php,f\a\fa93d30b96bdd1c12d977ef0b1bcc9443410e060
 O
 basic/views/feedback/create.php,6\c\6c243e4aa454cb78584524c0ffb430958ab3a387
 O
@@ -401,8 +395,6 @@ O
 basic/views/feedback/update.php,6\b\6b2b7fbe2a2de5e83e273938c4556f7e92cdb677
 I
 basic/views/city/view.php,e\f\efa326c2d4a9d728982dffd44d766099a1b7925d
-M
-basic/views/feedback/view.php,a\5\a57213043ed1066fa00e1d325bc551fc04d9746d
 L
 basic/views/layouts/main.php,1\3\13d3a1a61a3ada57aeaeb537a0f9cf6f2f336c66
 =

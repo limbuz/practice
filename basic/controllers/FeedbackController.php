@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\City;
 use app\models\Feedback;
 use app\models\FeedbackSearch;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -45,11 +47,17 @@ class FeedbackController extends Controller
         if ($city === null) {
             $dataProvider = $searchModel->search($this->request->queryParams);
         } else {
-            $dataProvider = $searchModel->search(['name' => $city]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => City::findOne(['name' => $city])->getFeedbacks(),
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
             $session->set('city', $city);
         }
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

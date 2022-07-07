@@ -1,5 +1,6 @@
 <?php
 
+use app\models\City;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -30,7 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'id_city',
+            'id_city' => [
+                'label' => 'city name',
+                'value' => City::findOne(['id' => $model->id_city])->name
+            ],
             'title',
             'text',
             'rating',

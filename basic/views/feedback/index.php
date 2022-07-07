@@ -1,5 +1,6 @@
 <?php
 
+use app\models\City;
 use yii\bootstrap4\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -10,6 +11,7 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FeedbackSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $model app\models\Feedback */
 
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="feedback-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Yii::$app->session->get('city') ?></h1>
 
     <p>
         <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success']) ?>
@@ -28,8 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!--?php echo $this->render('_search', ['model' => $searchModel]); ?-->
 
-    <?= DetailView::widget([
 
+    <?= ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => 'view'
     ]) ?>
 
 </div>
