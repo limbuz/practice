@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\City;
 use app\models\CitySearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +39,18 @@ class CityController extends Controller
     public function actionIndex()
     {
         $searchModel = new CitySearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        //$dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => City::find(),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'name' => SORT_ASC,
+                ]
+            ],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

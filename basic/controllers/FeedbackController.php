@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Feedback;
 use app\models\FeedbackSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,13 +37,19 @@ class FeedbackController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($city = null)
     {
+        $session = Yii::$app->session;
         $searchModel = new FeedbackSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        if ($city === null) {
+            $dataProvider = $searchModel->search($this->request->queryParams);
+        } else {
+            $dataProvider = $searchModel->search(['name' => $city]);
+            $session->set('city', $city);
+        }
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
