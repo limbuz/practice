@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'id_city' => [
                 'label' => 'city name',
                 'value' => City::findOne(['id' => $model->id_city])->name
@@ -40,7 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'rating',
             'img',
             'id_author',
-            'date_create',
+            'date_create' => [
+                'label' => 'Creation date',
+                'value' => date('d/m/Y', $model->date_create)
+            ],
         ],
     ]) ?>
 

@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'text')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'rating')->dropDownList(['1', '2', '3', '4', '5']) ?>
+    <?= $form->field($model, 'rating')->dropDownList([1, 2, 3, 4, 5]) ?>
 
     <?= $form->field($model, 'img')->fileInput() ?>
 

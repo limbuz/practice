@@ -40,10 +40,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     /**
      * Finds user by username
      *
-     * @param string $username
+     * @param string $fio
      * @return static|null
      */
-    public static function findByUsername($fio)
+    public static function findByUsername(string $fio)
     {
         return User::findOne(['fio' => $fio]);
     }

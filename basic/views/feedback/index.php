@@ -33,7 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= ListView::widget([
             'dataProvider' => $dataProvider,
-            'itemView' => 'view'
+            'itemView' => 'view',
+            'layout' => "{items}\n{pager}",
     ]) ?>
 
 </div>

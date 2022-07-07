@@ -253,8 +253,6 @@ J
 basic/views/site/index.php,8\8\88a39a516d6c4f2de6669da49a35c5b1fe890ad3
 C
 basic/config/db.php,2\9\2947d8ce5ccb2fee2de29ae146fffeb5e2ed5621
-E
-basic/models/User.php,d\8\d8c4d825986e64b89478df288d17246ffd66900c
 w
 G.idea/sonarlint/issuestore/5/d/5d4b8577507b41bbefdc0bd5ce05a42351920fb5,2\c\2c372372f039f4e3aef82a63922bee17a14eb24c
 w
@@ -395,9 +393,9 @@ O
 basic/views/feedback/update.php,6\b\6b2b7fbe2a2de5e83e273938c4556f7e92cdb677
 I
 basic/views/city/view.php,e\f\efa326c2d4a9d728982dffd44d766099a1b7925d
-L
-basic/views/layouts/main.php,1\3\13d3a1a61a3ada57aeaeb537a0f9cf6f2f336c66
 =
 composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
 C
 basic/web/index.php,d\2\d207ebe9c677bee54f24bed904c1359a7fe43346
+J
+basic/views/city/_form.php,2\3\23c00fc55570455a92e7f473609d290fba32f393

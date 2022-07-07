@@ -82,4 +82,20 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return $this->hasOne(City::className(), ['id' => 'id_city']);
     }
+
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert))
+        {
+            if($insert) {
+                $this->date_create = time();
+                $this->id_author = Yii::$app->user->identity->id;
+                $this->id_city = City::findOne(['name' => Yii::$app->session->get('city')])->id;
+            }
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
