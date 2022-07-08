@@ -7,6 +7,7 @@ use app\models\Feedback;
 use app\models\FeedbackSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,7 +38,7 @@ class FeedbackController extends Controller
     /**
      * Lists all Feedback models.
      *
-     * @return string
+     * @return \yii\web\Response|string
      */
     public function actionIndex($city = null)
     {
@@ -45,7 +46,7 @@ class FeedbackController extends Controller
         $searchModel = new FeedbackSearch();
 
         if ($city === null) {
-            $dataProvider = $searchModel->search($this->request->queryParams);
+            return $this->redirect(['city/index']);
         } else {
             $dataProvider = new ActiveDataProvider([
                 'query' => City::findOne(['name' => $city])->getFeedbacks(),
@@ -83,16 +84,23 @@ class FeedbackController extends Controller
     public function actionCreate()
     {
         $model = new Feedback();
+        $cities = [];
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $cities = preg_split("/[\s,]+/", trim($model->id_city),-1,PREG_SPLIT_NO_EMPTY);
+                if ($model->id_city === null) {
+                    $data = City::find()->asArray()->all();
 
-                foreach ($cities as $city) {
-                    $model = new Feedback();
-                    $model->load($this->request->post());
-                    $model->id_city = City::findOne(['name' => $city])->id;
-                    $model->save(false);
+                    for ($i = 0; $i < count($data); $i++) {
+                        $cities[$i] = $data[$i]['name'];
+                    }
+
+                } else {
+                    $cities = preg_split("/[\s,]+/", trim($model->id_city), -1, PREG_SPLIT_NO_EMPTY);
+                }
+
+                if (empty($cities)) {
+                    $this->saveData($cities);
                 }
 
                 return $this->redirect(['index', 'city' => Yii::$app->session->get('city')]);
@@ -103,11 +111,21 @@ class FeedbackController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'data' => $this->prepareDataForAutocomplete()
+            'data' => $this->prepareData()
         ]);
     }
 
-    public function prepareDataForAutocomplete(): string
+    public function saveData($cities)
+    {
+        foreach ($cities as $city) {
+            $model = new Feedback();
+            $model->load($this->request->post());
+            $model->id_city = City::findOne(['name' => $city])->id;
+            $model->save(false);
+        }
+    }
+
+    public function prepareData(): string
     {
         $expression = '';
         $data = City::find()->all();

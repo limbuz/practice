@@ -35,14 +35,13 @@ class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_city', 'title', 'text', 'rating', 'id_author', 'date_create'], 'required'],
+            [['title', 'text', 'rating', 'id_author', 'date_create'], 'required'],
             [['rating', 'id_author'], 'integer'],
             [['img'], 'string'],
             [['date_create'], 'safe'],
             [['title'], 'string', 'max' => 100],
             [['text'], 'string', 'max' => 255],
             [['id_author'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_author' => 'id']],
-            [['id_city'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['id_city' => 'id']],
         ];
     }
 
