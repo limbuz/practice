@@ -94,7 +94,21 @@ class FeedbackController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'data' => $this->prepareDataForAutocomplete()
         ]);
+    }
+
+    public function prepareDataForAutocomplete(): string
+    {
+        $expression = '';
+        $data = City::find()->all();
+
+        /** @var City $city */
+        foreach ($data as $city) {
+            $expression .= '"' . $city->name . '", ';
+        }
+
+        return '[' . $expression . ']';
     }
 
     /**

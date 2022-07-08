@@ -37,10 +37,6 @@ R
 "basic/vagrant/nginx/log/.gitignore,b\a\bada17c65c7ff0851809da975669c26c26001e4d
 H
 basic/docker-compose.yml,a\1\a100919ce1debaa4b086be6d356c5cb2d4fa5b60
-C
-basic/composer.lock,0\0\003af9e9ffeb42e43b75550bff0409fcb9f37722
-C
-basic/composer.json,5\5\5531ae51ce1351df89f672b0e3b2502671de2b19
 E
 basic/codeception.yml,0\4\045b36d39756f26bc41f9eeb47fd7f45f5838c6c
 @
@@ -384,8 +380,6 @@ P
 K
 basic/models/CitySearch.php,5\6\56db4daee21d3a906e8ca0e04ed2cd9d58f30987
 O
-basic/views/feedback/create.php,6\c\6c243e4aa454cb78584524c0ffb430958ab3a387
-O
 basic/models/FeedbackSearch.php,b\0\b06cd276f36c7e2f536c441acf22aad4c14749e1
 K
 basic/views/city/update.php,3\e\3e089efa574a2e4ff9ad84585a97c5495267a5b9
@@ -393,9 +387,17 @@ O
 basic/views/feedback/update.php,6\b\6b2b7fbe2a2de5e83e273938c4556f7e92cdb677
 I
 basic/views/city/view.php,e\f\efa326c2d4a9d728982dffd44d766099a1b7925d
-=
-composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
 C
 basic/web/index.php,d\2\d207ebe9c677bee54f24bed904c1359a7fe43346
 J
 basic/views/city/_form.php,2\3\23c00fc55570455a92e7f473609d290fba32f393
+J
+basic/views/city/index.php,e\b\eb1d54233fda0a8876166d8465b0ac24113d3ffc
+K
+basic/views/city/create.php,f\a\fa93d30b96bdd1c12d977ef0b1bcc9443410e060
+L
+basic/views/layouts/main.php,1\3\13d3a1a61a3ada57aeaeb537a0f9cf6f2f336c66
+E
+basic/models/User.php,d\8\d8c4d825986e64b89478df288d17246ffd66900c
+D
+basic/config/web.php,f\0\f0d51b9a5ab62dd3a25c6d37dd4bea918a63e6be

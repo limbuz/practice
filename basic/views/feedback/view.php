@@ -1,6 +1,7 @@
 <?php
 
 use app\models\City;
+use app\models\User;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php if (!Yii::$app->user->isGuest): ?>
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -26,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <?php endif; ?>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -38,7 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'text',
             'rating',
             'img',
-            'id_author',
+            'id_author' => [
+                'label' => 'Author name',
+                'value' => \app\models\User::findOne(['id' => $model->id_author])->fio
+            ],
             'date_create' => [
                 'label' => 'Creation date',
                 'value' => date('d/m/Y', $model->date_create)

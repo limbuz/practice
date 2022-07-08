@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Feedback */
+/* @var $data string */
 
 $this->title = 'Create Feedback';
 $this->params['breadcrumbs'][] = ['label' => 'Feedbacks', 'url' => ['index']];
@@ -15,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'data' => $data
     ]) ?>
 
 </div>

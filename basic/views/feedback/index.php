@@ -24,9 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Yii::$app->session->get('city') ?></h1>
 
+    <?php if (!Yii::$app->user->isGuest): ?>
     <p>
         <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php endif; ?>
 
     <!--?php echo $this->render('_search', ['model' => $searchModel]); ?-->
 
