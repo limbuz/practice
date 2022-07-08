@@ -85,8 +85,17 @@ class FeedbackController extends Controller
         $model = new Feedback();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save(false)) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $cities = preg_split("/[\s,]+/", trim($model->id_city),-1,PREG_SPLIT_NO_EMPTY);
+
+                foreach ($cities as $city) {
+                    $model = new Feedback();
+                    $model->load($this->request->post());
+                    $model->id_city = City::findOne(['name' => $city])->id;
+                    $model->save(false);
+                }
+
+                return $this->redirect(['index', 'city' => Yii::$app->session->get('city')]);
             }
         } else {
             $model->loadDefaultValues();

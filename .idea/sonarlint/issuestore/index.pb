@@ -164,8 +164,6 @@ G.idea/sonarlint/issuestore/a/b/ab89301f203dd16a6181c5abb6297306c877b0d5,9\d\9d
 w
 G.idea/sonarlint/issuestore/5/e/5e14fa3ef256c4554452406b3b194392c3d997d9,a\f\af8db5720a35d22d8c2b0a78dc66ea8279d53845
 w
-G.idea/sonarlint/issuestore/1/3/13d3a1a61a3ada57aeaeb537a0f9cf6f2f336c66,d\c\dce11b5f9293c2bd2407ae503cceb4e1877f87a3
-w
 G.idea/sonarlint/issuestore/b/a/bada17c65c7ff0851809da975669c26c26001e4d,f\b\fb56e536d367277113272ff1bc418c487462b852
 w
 G.idea/sonarlint/issuestore/a/3/a3be12e34649fca91613591214721d3f727aa092,8\c\8c54c2be4c502dd5b6c8cebcc5a7701083a4f893
@@ -320,8 +318,6 @@ G.idea/sonarlint/issuestore/8/8/88a39a516d6c4f2de6669da49a35c5b1fe890ad3,5\8\58
 w
 G.idea/sonarlint/issuestore/9/f/9f09b8525866feead1f798d8eb6fc1df604a55e1,b\7\b7b7448aedfd1b094559d16ead5f042ab41a87ec
 w
-G.idea/sonarlint/issuestore/f/0/f0d51b9a5ab62dd3a25c6d37dd4bea918a63e6be,1\4\1451d0d98401315a0c887e0b572b44d080c0b22f
-w
 G.idea/sonarlint/issuestore/e/8/e80b46a84e6d75e2791737281bf39be956d40584,7\5\75fbb56a9635b0037e9bc5ce5549d48cce7208e1
 w
 G.idea/sonarlint/issuestore/a/1/a1ad120ef2bd6504fa7aabc5bfd5ce028faf056c,9\e\9ed374b1e3eb99a36fb76ae4ce549e059a584fec
@@ -379,8 +375,6 @@ P
  basic/views/feedback/_search.php,6\7\675cfb11508d25d712a7a82728656ae2d1068289
 K
 basic/models/CitySearch.php,5\6\56db4daee21d3a906e8ca0e04ed2cd9d58f30987
-O
-basic/models/FeedbackSearch.php,b\0\b06cd276f36c7e2f536c441acf22aad4c14749e1
 K
 basic/views/city/update.php,3\e\3e089efa574a2e4ff9ad84585a97c5495267a5b9
 O
@@ -391,8 +385,6 @@ C
 basic/web/index.php,d\2\d207ebe9c677bee54f24bed904c1359a7fe43346
 J
 basic/views/city/_form.php,2\3\23c00fc55570455a92e7f473609d290fba32f393
-J
-basic/views/city/index.php,e\b\eb1d54233fda0a8876166d8465b0ac24113d3ffc
 K
 basic/views/city/create.php,f\a\fa93d30b96bdd1c12d977ef0b1bcc9443410e060
 L

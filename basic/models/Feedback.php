@@ -36,7 +36,7 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             [['id_city', 'title', 'text', 'rating', 'id_author', 'date_create'], 'required'],
-            [['id_city', 'rating', 'id_author'], 'integer'],
+            [['rating', 'id_author'], 'integer'],
             [['img'], 'string'],
             [['date_create'], 'safe'],
             [['title'], 'string', 'max' => 100],
@@ -90,7 +90,6 @@ class Feedback extends \yii\db\ActiveRecord
             if($insert) {
                 $this->date_create = time();
                 $this->id_author = Yii::$app->user->identity->id;
-                $this->id_city = City::findOne(['name' => Yii::$app->session->get('city')])->id;
             }
             return true;
         }
