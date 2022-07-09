@@ -137,4 +137,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->hasMany(Feedback::className(), ['id_author' => 'id']);
     }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        $this->date_create = time();
+
+        return true;
+    }
 }
