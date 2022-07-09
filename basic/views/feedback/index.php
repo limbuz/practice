@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!--?php echo $this->render('_search', ['model' => $searchModel]); ?-->
 
-
     <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => 'view',
@@ -41,4 +40,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
-<?php endif;
+<?php endif; ?>
