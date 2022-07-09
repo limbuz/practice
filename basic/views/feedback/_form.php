@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Feedback */
+/* @var $city app\models\City */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $data string */
 ?>
@@ -16,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_city')->widget(AutoComplete::className(), [
+    <?= $form->field($city, 'name')->widget(AutoComplete::className(), [
             'clientOptions' => [
                     'source' => new JsExpression("
                         function( request, response ) {
@@ -37,8 +38,6 @@ use yii\widgets\ActiveForm;
                     'class' => 'form-control'
             ]
     ]) ?>
-
-    <?php $this->registerJs('console.log(' . $data . ')') ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

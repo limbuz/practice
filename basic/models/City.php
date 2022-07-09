@@ -29,7 +29,7 @@ class City extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'date_create'], 'required'],
+            [['date_create'], 'required'],
             [['date_create'], 'safe'],
             [['name'], 'string', 'max' => 45],
         ];
@@ -42,8 +42,8 @@ class City extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'date_create' => 'Date Create',
+            'name' => 'Название города',
+            'date_create' => 'Дата добавления',
         ];
     }
 

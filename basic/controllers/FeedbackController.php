@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\City;
 use app\models\Feedback;
 use app\models\FeedbackSearch;
+use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
@@ -84,24 +85,22 @@ class FeedbackController extends Controller
     public function actionCreate()
     {
         $model = new Feedback();
+        $city = new City();
         $cities = [];
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                if ($model->id_city === null) {
+            if ($model->load($this->request->post()) && $city->load($this->request->post())) {
+                if (empty($city->name)) {
                     $data = City::find()->asArray()->all();
 
                     for ($i = 0; $i < count($data); $i++) {
                         $cities[$i] = $data[$i]['name'];
                     }
-
                 } else {
-                    $cities = preg_split("/[\s,]+/", trim($model->id_city), -1, PREG_SPLIT_NO_EMPTY);
+                    $cities = preg_split("/[\s,]+/", trim($city->name . ','), -1, PREG_SPLIT_NO_EMPTY);
+                    $this->checkData($cities);
                 }
-
-                if (empty($cities)) {
-                    $this->saveData($cities);
-                }
+                $this->saveData($cities);
 
                 return $this->redirect(['index', 'city' => Yii::$app->session->get('city')]);
             }
@@ -111,7 +110,8 @@ class FeedbackController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'data' => $this->prepareData()
+            'data' => $this->prepareData(),
+            'city' => $city
         ]);
     }
 
@@ -136,6 +136,48 @@ class FeedbackController extends Controller
         }
 
         return '[' . $expression . ']';
+    }
+
+    public function checkData($cities)
+    {
+        foreach ($cities as $city) {
+            $cityId = City::findOne(['name' => $city]);
+
+            if ($cityId === null) {
+
+                $USERAGENT = $_SERVER['HTTP_USER_AGENT'];
+                $opts = array('http'=>array('header'=>"User-Agent: $USERAGENT\r\n"));
+                $context = stream_context_create($opts);
+                $request = file_get_contents('https://nominatim.openstreetmap.org/search?city=' . $city . '&format=json', false, $context);
+                $request = json_decode($request, true);
+                $name = preg_split('/[\s,]+/', $request[0]['display_name']);
+
+                if ($city === $name[0]) {
+                    $instance = new City();
+                    $instance->name = $city;
+                    $instance->date_create = time();
+                    $instance->save(false);
+                }
+            }
+        }
+    }
+
+    public function actionUser($id): string
+    {
+        $user = User::findOne(['id' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $user->getFeedbacks(),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('_feedbacks', [
+            'dataProvider' => $dataProvider,
+            'user' => $user,
+            'model' => new Feedback()
+        ]);
     }
 
     /**

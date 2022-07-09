@@ -52,7 +52,7 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_city' => 'Название города',
+            'id_city' => 'ID города',
             'title' => 'Заголовок',
             'text' => 'Содержание',
             'rating' => 'Рейтинг',
