@@ -58,40 +58,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'authorInfo' . $model->id
     ]) ?>
 
+    <?php $author = $model->getAuthor()->one() ?>
+
     <?= Html::label('E-mail', 'email') ?>
-    <?= Html::input('email', 'email', $model->getAuthor()->one()['email'], ['class' => 'form-control', 'disabled' => true]) ?>
+    <?= Html::input('email', 'email', $author['email'], ['class' => 'form-control', 'disabled' => true]) ?>
     <br>
-    <?= Html::label('Phone', 'phone') ?>
-    <?= Html::input('text', 'phone', $model->getAuthor()->one()['phone'], ['class' => 'form-control', 'disabled' => true]) ?>
+    <?= Html::label('Телефон', 'phone') ?>
+    <?= Html::input('text', 'phone', $author['phone'], ['class' => 'form-control', 'disabled' => true]) ?>
     <br>
-    <?= Html::a('View all feedbacks by this author', ['feedback/userFeedbacks'], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Посмотреть все отзывы автора', ['feedback/user', 'id' => $author['id']], ['class' => 'btn btn-primary']) ?>
 
     <?php Modal::end() ?>
 
     <?php $this->registerJs('$("#author' . $model->id . '").click(function() { $("#authorInfo' . $model->id .'").modal("show"); })') ?>
 
     <hr>
-
-    <!--?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id_city' => [
-                'label' => 'city name',
-                'value' => City::findOne(['id' => $model->id_city])->name
-            ],
-            'title',
-            'text',
-            'rating',
-            'img',
-            'id_author' => [
-                'label' => 'Author name',
-                'value' => \app\models\User::findOne(['id' => $model->id_author])->fio
-            ],
-            'date_create' => [
-                'label' => 'Creation date',
-                'value' => date('d/m/Y', $model->date_create)
-            ],
-        ],
-    ]) ?-->
-
 </div>

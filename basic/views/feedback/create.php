@@ -7,7 +7,6 @@ use yii\helpers\Html;
 /* @var $data string */
 
 $this->title = 'Create Feedback';
-$this->params['breadcrumbs'][] = ['label' => 'Feedbacks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="feedback-create">

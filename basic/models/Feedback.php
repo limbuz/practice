@@ -52,13 +52,13 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_city' => 'Id City',
-            'title' => 'Title',
-            'text' => 'Text',
-            'rating' => 'Rating',
-            'img' => 'Img',
-            'id_author' => 'Id Author',
-            'date_create' => 'Date Create',
+            'id_city' => 'Название города',
+            'title' => 'Заголовок',
+            'text' => 'Содержание',
+            'rating' => 'Рейтинг',
+            'img' => 'Картинка',
+            'id_author' => 'ID автора',
+            'date_create' => 'Дата создания',
         ];
     }
 

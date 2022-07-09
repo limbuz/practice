@@ -133,7 +133,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTblFeedbacks()
+    public function getFeedbacks()
     {
         return $this->hasMany(Feedback::className(), ['id_author' => 'id']);
     }
