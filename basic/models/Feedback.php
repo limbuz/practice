@@ -42,6 +42,7 @@ class Feedback extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 100],
             [['text'], 'string', 'max' => 255],
             [['id_author'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_author' => 'id']],
+            [['img'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -82,7 +83,7 @@ class Feedback extends \yii\db\ActiveRecord
         return $this->hasOne(City::className(), ['id' => 'id_city']);
     }
 
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         if(parent::beforeSave($insert))
         {

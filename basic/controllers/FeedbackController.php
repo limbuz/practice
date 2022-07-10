@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * FeedbackController implements the CRUD actions for Feedback model.
@@ -43,7 +44,6 @@ class FeedbackController extends Controller
     public function actionIndex($city = null)
     {
         $session = Yii::$app->session;
-        $searchModel = new FeedbackSearch();
 
         if ($city === null) {
             return $this->redirect(['city/index']);
@@ -58,7 +58,7 @@ class FeedbackController extends Controller
         }
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'model' => City::findOne(['name' => $city]),
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -121,6 +121,8 @@ class FeedbackController extends Controller
             $model->load($this->request->post());
             $model->rating++;
             $model->id_city = City::findOne(['name' => $city])->id;
+            $model->img = UploadedFile::getInstance($model, 'img');
+            $model->img->saveAs("uploads/{$model->img->baseName}.{$model->img->extension}");
             $model->save(false);
         }
     }

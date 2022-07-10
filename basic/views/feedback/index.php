@@ -1,11 +1,6 @@
 <?php
 
-use app\models\City;
-use yii\bootstrap4\Modal;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
-use yii\widgets\DetailView;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
@@ -15,6 +10,7 @@ use yii\widgets\ListView;
 
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model['name'];
 ?>
 
 
@@ -29,8 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Написать отзыв', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php endif; ?>
-
-    <!--?php echo $this->render('_search', ['model' => $searchModel]); ?-->
 
     <?= ListView::widget([
             'dataProvider' => $dataProvider,

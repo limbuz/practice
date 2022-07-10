@@ -39,7 +39,6 @@ class CityController extends Controller
     public function actionIndex()
     {
         $searchModel = new CitySearch();
-        //$dataProvider = $searchModel->search($this->request->queryParams);
         $dataProvider = new ActiveDataProvider([
             'query' => City::find(),
             'pagination' => [

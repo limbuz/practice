@@ -8,8 +8,6 @@ use yii\helpers\Html;
 /* @var $model app\models\Feedback */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Feedbacks', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 
@@ -20,6 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="mx-auto col-md-10 rounded" style="box-shadow: 0 2px 4px rgba(0, 0, 0, .25); background: #FFFFFF">
                 <h2 class="text-center"><?= $model->title ?> <?= $model->rating ?>/5</h2>
                 <p class="text-center" style="background-color: white"><?= $model->text ?></p>
+                <?php if ($model->img !== ''): ?>
+                    <img src="/uploads/<?= $model->img ?>" alt="Image" class="text-center" width="100%" height="auto">
+                <?php endif; ?>
 
                 <?php if (!Yii::$app->user->isGuest): ?>
                     <a href="#" id=<?= 'author' . $model->id ?>>
