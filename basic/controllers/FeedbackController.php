@@ -100,6 +100,8 @@ class FeedbackController extends Controller
                     $cities = preg_split("/[\s,]+/", trim($city->name . ','), -1, PREG_SPLIT_NO_EMPTY);
                     $this->checkData($cities);
                 }
+                $_POST['bebra'] = $cities;
+                $this->checkData($cities);
                 $this->saveData($cities);
 
                 return $this->redirect(['index', 'city' => Yii::$app->session->get('city')]);
@@ -150,13 +152,16 @@ class FeedbackController extends Controller
                 $context = stream_context_create($opts);
                 $request = file_get_contents('https://nominatim.openstreetmap.org/search?city=' . $city . '&format=json', false, $context);
                 $request = json_decode($request, true);
-                $name = preg_split('/[\s,]+/', $request[0]['display_name']);
 
-                if ($city === $name[0]) {
-                    $instance = new City();
-                    $instance->name = $city;
-                    $instance->date_create = time();
-                    $instance->save(false);
+                for ($i = 0; $i < 2; $i++) {
+                    $name = preg_split('/[\s,]+/', $request[$i]['display_name']);
+
+                    if ($city === $name[0]) {
+                        $instance = new City();
+                        $instance->name = $city;
+                        $instance->date_create = time();
+                        $instance->save(false);
+                    }
                 }
             }
         }

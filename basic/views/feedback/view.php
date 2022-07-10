@@ -14,6 +14,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Feedbacks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+
+<?php $author = $model->getAuthor()->one() ?>
+
 <div class="feedback-view">
         <div class="container">
             <div class="mx-auto col-md-10 rounded" style="box-shadow: 0 2px 4px rgba(0, 0, 0, .25); background: #FFFFFF">
@@ -22,23 +25,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?php if (!Yii::$app->user->isGuest): ?>
                     <a href="#" id=<?= 'author' . $model->id ?>>
-                        <h6 class="text-right" style="color: #000000"><?= $model->getAuthor()->one()['fio'] ?></h6>
+                        <h6 class="text-right" style="color: #000000"><?= $author['fio'] ?></h6>
                     </a>
                 <?php else: ?>
-                    <h6 class="text-right" style="color: #000000"><?= $model->getAuthor()->one()['fio'] ?></h6>
+                    <h6 class="text-right" style="color: #000000"><?= $author['fio'] ?></h6>
                 <?php endif; ?>
 
                 <h6 class="text-right" style="color: #000000"><?= date('d.m.Y' ,$model->date_create) ?></h6>
 
                 <?php if (!Yii::$app->user->isGuest): ?>
+                    <?php if (User::isAdmin() || Yii::$app->user->id === $model->id_author): ?>
                     <br>
                     <div class="dropdown text-right">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Действие
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary dropdown-item']) ?>
-                            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                            <?php if (Yii::$app->user->id === $model->id_author):?>
+                                <?= Html::a('Обновить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary dropdown-item']) ?>
+                            <?php endif; ?>
+                            <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
                                 'class' => 'btn btn-danger dropdown-item',
                                 'data' => [
                                     'confirm' => 'Are you sure you want to delete this item?',
@@ -47,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]) ?>
                         </div>
                     </div>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <br>
@@ -54,11 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php Modal::begin([
-        'title' => $model->getAuthor()->one()['fio'],
+        'title' => $author['fio'],
         'id' => 'authorInfo' . $model->id
     ]) ?>
-
-    <?php $author = $model->getAuthor()->one() ?>
 
     <?= Html::label('E-mail', 'email') ?>
     <?= Html::input('email', 'email', $author['email'], ['class' => 'form-control', 'disabled' => true]) ?>
