@@ -1,10 +1,8 @@
 <?php
 
-use app\models\City;
 use app\models\User;
 use yii\bootstrap4\Modal;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Feedback */
@@ -47,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
                                 'class' => 'btn btn-danger dropdown-item',
                                 'data' => [
-                                    'confirm' => 'Are you sure you want to delete this item?',
+                                    'confirm' => 'Вы точно хотите удалить этот отзыв?',
                                     'method' => 'post',
                                 ],
                             ]) ?>

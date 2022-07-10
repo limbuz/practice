@@ -8,7 +8,6 @@ use app\models\FeedbackSearch;
 use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\ActiveRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -100,8 +99,6 @@ class FeedbackController extends Controller
                     $cities = preg_split("/[\s,]+/", trim($city->name . ','), -1, PREG_SPLIT_NO_EMPTY);
                     $this->checkData($cities);
                 }
-                $_POST['bebra'] = $cities;
-                $this->checkData($cities);
                 $this->saveData($cities);
 
                 return $this->redirect(['index', 'city' => Yii::$app->session->get('city')]);
@@ -122,6 +119,7 @@ class FeedbackController extends Controller
         foreach ($cities as $city) {
             $model = new Feedback();
             $model->load($this->request->post());
+            $model->rating++;
             $model->id_city = City::findOne(['name' => $city])->id;
             $model->save(false);
         }
@@ -202,6 +200,8 @@ class FeedbackController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'city' => City::findOne(['id' => $model->id_city]),
+            'data' => $this->prepareData()
         ]);
     }
 

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $data string */
 /* @var $city app\models\City */
 
-$this->title = 'Create Feedback';
+$this->title = 'Создать отзыв';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="feedback-create">

@@ -11,7 +11,7 @@ use yii\widgets\ListView;
 /* @var $searchModel app\models\CitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cities';
+$this->title = 'Города';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="city-index">
@@ -54,12 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif; ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <!--p-->
-        <!--?= Html::a('Create City', ['create'], ['class' => 'btn btn-success']) ?-->
-    <!--/p-->
-
-    <!--?php echo $this->render('_search', ['model' => $searchModel]); ?-->
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
