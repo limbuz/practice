@@ -32,6 +32,18 @@ $config = [
             // 'useFileTransport' to false and configure transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+
+            // For production
+            /*
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'mail@yandex.ru',
+                'password' => 'password',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
+            */
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

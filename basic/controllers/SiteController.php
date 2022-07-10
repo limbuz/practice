@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\RegistrationForm;
 use Yii;
 use yii\base\Exception;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -105,6 +106,16 @@ class SiteController extends Controller
         return $this->render('register', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * @throws StaleObjectException
+     */
+    public function actionConfirm($token = null): Response
+    {
+        RegistrationForm::confirm($token);
+        Yii::$app->session->setFlash('success', 'E-mail подтвержден.');
+        return $this->goHome();
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'mail@yandex.ru', // change for production
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
 ];

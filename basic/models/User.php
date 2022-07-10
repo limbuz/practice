@@ -13,6 +13,8 @@ use Yii;
  * @property string $phone
  * @property string $date_create
  * @property string $password
+ * @property string $token
+ * @property int $status
  *
  * @property Feedback[] $feedbacks
  */
@@ -20,6 +22,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     public $authKey;
     public $accessToken;
+    const STATUS_ACTIVE = 1;
+    const STATUS_WAIT = 0;
 
     /**
      * {@inheritdoc}
@@ -105,10 +109,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['fio', 'email', 'phone', 'date_create', 'password'], 'required'],
+            [['fio', 'email', 'phone', 'date_create', 'password', 'token', 'status'], 'required'],
             [['date_create'], 'safe'],
             [['fio'], 'string', 'max' => 255],
-            [['email', 'password'], 'string', 'max' => 100],
+            [['email', 'password', 'status'], 'string', 'max' => 100],
             [['phone'], 'string', 'max' => 45],
         ];
     }
@@ -125,6 +129,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'phone' => 'Phone',
             'date_create' => 'Date Create',
             'password' => 'Password',
+            'token' => 'Token',
+            'status' => 'Status'
         ];
     }
 
@@ -145,6 +151,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
 
         $this->date_create = time();
+        $this->status = self::STATUS_WAIT;
 
         return true;
     }

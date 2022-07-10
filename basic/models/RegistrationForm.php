@@ -93,7 +93,7 @@ class RegistrationForm extends Model
 
     /**
      * Register user using the provided username and password.
-     * @return bool whether the user is registered successfully
+     * @return true whether the user is registered successfully
      * @throws Exception
      */
     public function register()
@@ -105,13 +105,34 @@ class RegistrationForm extends Model
             $user->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
             $user->email = $this->email;
             $user->phone = $this->phone;
+            $user->token = Yii::$app->security->generateRandomString();
 
             if ($user->save(false)) {
-                return Yii::$app->user->login($user);
+                $this->sendEmail($user);
+                Yii::$app->session->setFlash('success', 'Подтвердите ваш e-mail.');
             }
         }
 
-        return false;
+        return true;
+    }
+
+    /** @var $user User */
+    public function sendEmail($user)
+    {
+        Yii::$app->mailer
+            ->compose(
+                ['html' => 'confirm-html'],
+                ['user' => $user])
+            ->setTo($user->email)
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setSubject('Confirmation of registration')
+            ->send();
+    }
+
+    public static function confirm($token)
+    {
+        $user = User::findOne(['token' => $token]);
+        $user->updateAttributes(['token' => null, 'status' => User::STATUS_ACTIVE]);
     }
 
     private function isStrongPassword($password): bool
